@@ -17,18 +17,23 @@ const LogInOrRegister = () => {
     if (email.includes('insurance')) {
       localStorage.setItem('user', insurance[0].name)
       localStorage.setItem('isInsurance', true)
+      localStorage.setItem('isDoctor', false)
+      localStorage.setItem('isPatient', false)
       localStorage.setItem('accountId', insurance[0].account)
       dispatchLogInSuccessEvent()
     } 
     else if (email.includes('doctor')) {
       localStorage.setItem('user', doctors[0].name)
       localStorage.setItem('isDoctor', true)
+      localStorage.setItem('isInsurance', false)
+      localStorage.setItem('isPatient', false)
       localStorage.setItem('accountId', doctors[0].account)
       dispatchLogInSuccessEvent()
     }
     else {
       localStorage.setItem('user', patients[0].name)
       localStorage.setItem('isDoctor', false)
+      localStorage.setItem('isInsurance', false)
       localStorage.setItem('accountId', patients[0].account)
       dispatchLogInSuccessEvent()
     }
