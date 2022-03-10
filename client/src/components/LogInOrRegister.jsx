@@ -1,5 +1,5 @@
 import React from "react"
-import { doctors, patients } from '../helpers/users'
+import { insurance, doctors, patients } from '../helpers/users'
 
 const LogInOrRegister = () => {
 
@@ -14,12 +14,19 @@ const LogInOrRegister = () => {
   const logIn = (e) => {
     const email = logInEmailRef.current.value
     console.log('try log in as: ' + email)
-    if (email.includes('doctor')) {
+    if (email.includes('insurance')) {
+      localStorage.setItem('user', insurance[0].name)
+      localStorage.setItem('isInsurance', true)
+      localStorage.setItem('accountId', insurance[0].account)
+      dispatchLogInSuccessEvent()
+    } 
+    else if (email.includes('doctor')) {
       localStorage.setItem('user', doctors[0].name)
       localStorage.setItem('isDoctor', true)
       localStorage.setItem('accountId', doctors[0].account)
       dispatchLogInSuccessEvent()
-    } else {
+    }
+    else {
       localStorage.setItem('user', patients[0].name)
       localStorage.setItem('isDoctor', false)
       localStorage.setItem('accountId', patients[0].account)

@@ -1,7 +1,8 @@
 import React, { useState, useEffect, useRef } from "react"
 import ReactDOM from 'react-dom'
 import DoctorsList from "./DoctorsList"
-import { doctors } from '../helpers/users'
+import InsuranceList from "./InsuranceList"
+import { insurance, doctors } from '../helpers/users'
 import PatientMedicalRecordsList from "./PatientMedicalRecordsList"
 
 /**
@@ -45,6 +46,7 @@ const PatientView = ({ contract, accounts, accountId }) => {
 
   const medicalRecordsListRef = useRef()
   const doctorsListRef = useRef()
+  const InsuranceListRef = useRef()
 
   useEffect(() => {
     async function getDocuments() {
@@ -83,6 +85,28 @@ const PatientView = ({ contract, accounts, accountId }) => {
     /* eslint-disable-next-line */
   }, [])
 
+  useEffect(() => {
+    const getInsurance = async () => {
+      await insurance.map(async (insurance, index) => {
+        const permissions = await contract.methods.getInsurancePermissions(accounts[insurance.account]).call({ from: accounts[accountId], gas: 100000 })
+        insurance[index].hasAccess = permissions.includes(accounts[accountId])
+      })
+      setTimeout(() => {
+        console.log(insurance[0].hasAccess)
+        ReactDOM.render(
+          <InsuranceList insurance={insurance}
+            contract={contract}
+            accounts={accounts}
+            accountId={accountId}>
+          </InsuranceList>,
+          InsuranceListRef.current
+        )
+      }, 300);
+    }
+    getInsurance()
+    /* eslint-disable-next-line */
+  }, [])
+
   return (<div>
     <h2>Upload a medical record</h2>
     <div className="input-group mb-3">
@@ -101,6 +125,12 @@ const PatientView = ({ contract, accounts, accountId }) => {
     <h5>If you give access to a doctor, the doctor is able to view all your medical records.</h5>
     <div ref={doctorsListRef}></div>
 
+    <hr />
+    <h2>Manage permissions</h2>
+    <h5>If you give access to a insuarance, the insurance is able to view all your medical records.</h5>
+    <div ref={InsuranceListRef}></div>
+
+    <hr />
     <h2>Manage your medical records</h2>
     <h5>View or delete your medical records.</h5>
     <div ref={medicalRecordsListRef}></div>
