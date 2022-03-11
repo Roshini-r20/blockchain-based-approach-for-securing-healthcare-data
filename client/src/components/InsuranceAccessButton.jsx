@@ -2,15 +2,15 @@ import React, { useState } from "react"
 
 const giveAccessToInsurance = async (insuranceAddress, contract, accounts, accountId) => {
   await contract.methods.giveAccessToInsurance(insuranceAddress).send({ from: accounts[accountId], gas: 100000 })
-  const permissions = await contract.methods.getInsurasncePermissions(insuranceAddress).call({ from: accounts[accountId], gas: 100000 })
+  const permissions = await contract.methods.getInsurancePermissions(insuranceAddress).call({ from: accounts[accountId], gas: 100000 })
   console.log(permissions)
 }
 
 const revokeAccessFromDoctor = async (insuranceAddress, contract, accounts, accountId) => {
-  const insurancePermissions = await contract.methods.getInsurasncePermissions(insuranceAddress).call({ from: accounts[accountId], gas: 100000 })
+  const insurancePermissions = await contract.methods.getInsurancePermissions(insuranceAddress).call({ from: accounts[accountId], gas: 100000 })
   insurancePermissions.map(async (address, index) => {
     if (address === accounts[accountId]) {
-      await contract.methods.revokeAccessFromInsurasnce(insuranceAddress, index).send({ from: accounts[accountId], gas: 100000 })
+      await contract.methods.revokeAccessFromInsurance(insuranceAddress, index).send({ from: accounts[accountId], gas: 100000 })
     }
   })
 }

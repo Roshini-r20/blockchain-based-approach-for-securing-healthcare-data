@@ -7,7 +7,7 @@ const InsuranceView = ({ contract, accounts, accountId }) => {
   useEffect(() => {
     const patients = []
     const buildPatientsOverview = async () => {
-      const insurancePermissions = await contract.methods.getDoctorsPermissions(accounts[accountId]).call({ from: accounts[accountId], gas: 100000 })
+      const insurancePermissions = await contract.methods.getInsurancePermissions(accounts[accountId]).call({ from: accounts[accountId], gas: 100000 })
       const seenAddresses = []
       insurancePermissions.map(async (address, _) => {
         if (!seenAddresses.includes(address)) {

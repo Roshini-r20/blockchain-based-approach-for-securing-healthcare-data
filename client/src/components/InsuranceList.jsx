@@ -5,7 +5,7 @@ const InsuranceList = ({ insurance, contract, accounts, accountId }) => {
   return (
     <div>
       {insurance && insurance.length &&
-        insurance.map((doctor, index) => {
+        insurance.map((insurance, index) => {
           return <div key={index} className='row'>
             <div className='col-lg-2 m-1'><b>{insurance.name}</b></div>
             <div className='col-lg m-1'>{accounts[insurance.account]}</div>

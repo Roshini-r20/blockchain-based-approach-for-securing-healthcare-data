@@ -63,6 +63,7 @@ app.get('/GetFileName/:hash', (req, res) => {
 
 // GET a document
 app.get('/DownloadMedicalEvidence/:user/:patient/:document', async (req, res) => {
+  
   const documentHash = req.params.document
   const userAddress = req.params.user
   const patientAddress = req.params.patient
