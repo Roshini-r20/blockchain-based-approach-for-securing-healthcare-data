@@ -1,13 +1,14 @@
 import React, { Component } from "react";
 import PatientView from './components/PatientView'
 import DoctorView from './components/DoctorView'
+import InsuranceView from './components/InsuranceView'
 import HealthchainContract from "./contracts/Healthchain.json";
 import getWeb3 from "./getWeb3";
 import "./App.css";
 import 'open-iconic/font/css/open-iconic-bootstrap.css'
 import 'bootstrap/dist/css/bootstrap.css';
 import LogInOrRegister from "./components/LogInOrRegister";
-import { doctors, insurance, patients } from './helpers/users'
+import { insurance, doctors, patients } from './helpers/users'
 
 class App extends Component {
   state = {
@@ -116,7 +117,7 @@ class App extends Component {
               <DoctorView accounts={this.state.accounts} contract={this.state.contract} accountId={this.state.accountId} />
             }
             {this.state.user && this.state.isDoctor &&
-              <insuranceView accounts={this.state.accounts} contract={this.state.contract} accountId={this.state.accountId} />
+              <InsuranceView accounts={this.state.accounts} contract={this.state.contract} accountId={this.state.accountId} />
             }
           </div>
 

@@ -6,7 +6,7 @@ const giveAccessToInsurance = async (insuranceAddress, contract, accounts, accou
   console.log(permissions)
 }
 
-const revokeAccessFromDoctor = async (insuranceAddress, contract, accounts, accountId) => {
+const revokeAccessFromInsurance = async (insuranceAddress, contract, accounts, accountId) => {
   const insurancePermissions = await contract.methods.getInsurancePermissions(insuranceAddress).call({ from: accounts[accountId], gas: 100000 })
   insurancePermissions.map(async (address, index) => {
     if (address === accounts[accountId]) {
@@ -22,7 +22,7 @@ const InsuranceAccessButton = ({ insurance, contract, accounts, accountId }) => 
       {hasAccess &&
         <button className='btn btn-success'
           onClick={() => {
-            revokeAccessFromDoctor(accounts[insurance.account], contract, accounts, accountId)
+            revokeAccessFromInsurance(accounts[insurance.account], contract, accounts, accountId)
             setHasAccess(false)
           }}>
           Revoke Access
