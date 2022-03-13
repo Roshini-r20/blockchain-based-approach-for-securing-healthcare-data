@@ -32,6 +32,7 @@ const LogInOrRegister = () => {
     }
     else {
       localStorage.setItem('user', patients[0].name)
+      localStorage.setItem('isPatient', true)
       localStorage.setItem('isDoctor', false)
       localStorage.setItem('isInsurance', false)
       localStorage.setItem('accountId', patients[0].account)
