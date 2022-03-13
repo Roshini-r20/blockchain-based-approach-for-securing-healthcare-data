@@ -9,20 +9,21 @@ const getFileNameForHash = async (hash) => {
   return data.name
 }
 
-const downloadMedicalRecord = async (medicalRecord, userAddress, patientAddress) => {
+const downloadMedicalRecord = async (medicalRecord, userAddress, patientAddress ,insuranceAddress) => {
   const name = await getFileNameForHash(medicalRecord)
   const x = new XMLHttpRequest();
   const url = "http://localhost:3001/DownloadMedicalEvidence/" +
     userAddress + "/" +
     patientAddress + "/" +
-    medicalRecord
+    medicalRecord + "/" +
+    insuranceAddress
   x.open("GET", url, true);
   x.responseType = "blob";
   x.onload = function (e) { download(e.target.response, name, "image/png"); };
   x.send();
 }
 
-const PatientMedicalRecordsList = ({ items: medicalRecords, userAddress, patientAddress, isDoctor = false }) => {
+const PatientMedicalRecordsList = ({ items: medicalRecords, userAddress, patientAddress, insuranceAddress, isDoctor = false, isInsurance = false }) => {
 
   useEffect(() => {
     const getNames = async (id) => {
@@ -46,14 +47,14 @@ const PatientMedicalRecordsList = ({ items: medicalRecords, userAddress, patient
             <div className='col-lg m-1'>{medicalRecord}</div>
             <div className='col-lg-2 m-1'>
               <button className='btn btn-primary' onClick={
-                () => downloadMedicalRecord(medicalRecord, userAddress, patientAddress)}
+                () => downloadMedicalRecord(medicalRecord, userAddress, patientAddress, insuranceAddress)}
               >
                 Download
               </button>
             </div>
-            {!isDoctor &&
+            {!isDoctor && !isInsurance &&
               <div className='col-lg-2 m-1'>
-                <button disabled className='btn btn-danger'>Delete</button>
+                <button className='btn btn-danger'>Delete</button>
               </div>
             }
           </div>

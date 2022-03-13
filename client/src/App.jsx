@@ -7,7 +7,7 @@ import "./App.css";
 import 'open-iconic/font/css/open-iconic-bootstrap.css'
 import 'bootstrap/dist/css/bootstrap.css';
 import LogInOrRegister from "./components/LogInOrRegister";
-import { doctors, patients } from './helpers/users'
+import { doctors, insurance, patients } from './helpers/users'
 
 class App extends Component {
   state = {
@@ -16,6 +16,7 @@ class App extends Component {
     contract: null,
     user: null,
     isDoctor: false,
+    isInsurance: false,
     accountId: null
   };
 
@@ -50,8 +51,9 @@ class App extends Component {
       if (localStorage.getItem('user') === 'null') return
       const user = localStorage.getItem('user')
       const isDoctor = localStorage.getItem('isDoctor') === 'true'
+      const isInsurance = localStorage.getItem('isInsurance') === 'true'
       const accountId = parseInt(localStorage.getItem('accountId'))
-      this.setState({ user, isDoctor, accountId })
+      this.setState({ user, isDoctor, isInsurance, accountId })
     }
     document.addEventListener('logInSuccessful', updateLogInFromLocalStorage, false)
     updateLogInFromLocalStorage()
@@ -63,8 +65,9 @@ class App extends Component {
       return <div>Loading Web3, accounts, and contract...</div>;
     }
 
-    const changeLogIn = (user, isDoctor, accountId) => {
+    const changeLogIn = (user, isDoctor, isInsurance, accountId) => {
       localStorage.setItem('user', user)
+      localStorage.setItem('isInsurance', isInsurance)
       localStorage.setItem('isDoctor', isDoctor)
       localStorage.setItem('accountId', accountId)
       this.setState({ user, isDoctor, accountId })
@@ -81,6 +84,10 @@ class App extends Component {
         <button className="btn btn-warning debug-buttons" onClick={async () => {
           changeLogIn(doctors[1].name, true, doctors[1].account)
         }}>Log in as doctor</button>
+
+        <button className="btn btn-warning debug-buttons" onClick={async () => {
+          changeLogIn(insurance[1].name, true, insurance[1].account)
+        }}>Log in as Insurance</button>   
 
         <button className="btn btn-warning debug-buttons" onClick={async () => {
           changeLogIn(null, null, null)
@@ -107,6 +114,9 @@ class App extends Component {
             }
             {this.state.user && this.state.isDoctor &&
               <DoctorView accounts={this.state.accounts} contract={this.state.contract} accountId={this.state.accountId} />
+            }
+            {this.state.user && this.state.isDoctor &&
+              <insuranceView accounts={this.state.accounts} contract={this.state.contract} accountId={this.state.accountId} />
             }
           </div>
 
